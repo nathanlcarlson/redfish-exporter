@@ -24,6 +24,7 @@ class RedfishMetricsCollector(object):
         self._password = pwd
         
         self.metrics_type = metrics_type
+        self.collect_certificates = bool(config.get('collect_certificates', False))
 
         self._timeout = int(os.getenv("TIMEOUT", config.get('timeout', 10)))
         self.labels = {"host": self.host}
@@ -343,13 +344,14 @@ class RedfishMetricsCollector(object):
 
         if self.metrics_type == 'health':
 
-            cert_metrics = CertificateCollector(self.host, self.target, self.labels)
-            cert_metrics.collect()
+            if self.collect_certificates:
+                cert_metrics = CertificateCollector(self.host, self.target, self.labels)
+                cert_metrics.collect()
 
-            yield cert_metrics.cert_metrics_isvalid
-            yield cert_metrics.cert_metrics_valid_hostname
-            yield cert_metrics.cert_metrics_valid_days
-            yield cert_metrics.cert_metrics_selfsigned
+                yield cert_metrics.cert_metrics_isvalid
+                yield cert_metrics.cert_metrics_valid_hostname
+                yield cert_metrics.cert_metrics_valid_days
+                yield cert_metrics.cert_metrics_selfsigned
 
             powerstate_metrics = GaugeMetricFamily(
                 "redfish_powerstate",
