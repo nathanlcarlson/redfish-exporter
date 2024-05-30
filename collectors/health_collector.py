@@ -142,6 +142,9 @@ class HealthCollector(object):
                         )
 
                 current_labels.update(self.col.labels)
+                if "PredictedMediaLifeLeftPercent" in disk_data:
+                    self.health_metrics.add_sample("redfish_health_predicted_media_life_left_percent", value=disk_data["PredictedMediaLifeLeftPercent"], labels=current_labels)
+
                 if "Health" in disk_data["Status"]:
                     disk_status = (
                         math.nan
