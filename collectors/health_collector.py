@@ -124,6 +124,7 @@ class HealthCollector(object):
                 "Model": "disk_model",
                 "CapacityBytes": "disk_capacity",
                 "Protocol": "disk_protocol",
+                "SerialNumber": "serial_number",
             }
             for disk in controller_data["Drives"]:
                 disk_data = self.col.connect_server(disk["@odata.id"])
@@ -185,10 +186,13 @@ class HealthCollector(object):
             # HPE ILO5 is missing the PSU Model
             psu_model = psu["Model"] if "Model" in psu and psu["Model"] != None else "unknown"
 
+            serial_number = psu["SerialNumber"] if "SerialNumber" in psu and psu["SerialNumber"] != None else "unknown"
+
             current_labels = {
                     "device_type": "powersupply", 
                     "device_name": psu_name, 
-                    "device_model": psu_model
+                    "device_model": psu_model,
+                    "serial_number": serial_number,
             }
             current_labels.update(self.col.labels)
             psu_health = math.nan
