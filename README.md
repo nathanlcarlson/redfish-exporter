@@ -24,12 +24,16 @@ Lenovo ThinkSystem SR950
 HPE DL360 Gen10   
 HPE DL560 Gen10
 
-## Example Call
-
-If you are logged into the POD running the exporter, you can call
+## Example Build and Call
 
 ```bash
-curl http://localhost:9200/redfish?target=server1.example.com&job=redfish-myjob
+docker build -t redfish-exporter .
+docker run -it -d \
+    -p 9200:9200 \
+    -e REDFISH_USERNAME='username' \
+    -e REDFISH_PASSWORD='foobar' \
+    redfish-exporter
+curl http://localhost:9200/health?target=server1.example.com&job=redfish
 ```
 
 ## Prerequisites and Installation
@@ -40,7 +44,7 @@ The exporter was written for Python 3.6 or newer. To install all modules needed 
 pip3 install --no-cache-dir -r requirements.txt
 ```
 
-There is also a docker file available to create a docker container to run the exporter.
+There is also a Dockerfile available to create a docker container to run the exporter.
 
 ## Parameters
 
@@ -63,6 +67,8 @@ There is also a docker file available to create a docker container to run the ex
 
 * The **job** parameter specifies the Prometheus job that will be passed as label if no job was handed over during the API call.
 
+* The **collect_certificates** parameter specifies whether or not to collect certificate info, true of false. Default is false.
+
 ### Example of a config file
 
 ```yaml
@@ -71,6 +77,7 @@ username: <your username>
 password: <your password>
 timeout: 40
 job: 'redfish-myjob'
+collect_certificates: false
 ```
 
 ## Exported Metrics
@@ -92,6 +99,10 @@ Show the health information of the hardware parts like processor, memory, storag
 Showing the count of errors per dimm.
 
 Cisco servers do not seem to provide this kind of information via redfish. Dell PowerEdge servers only with certain DIMM manufacturers (Samsung not, Micron Technology and Hynix Semiconductor do).
+
+### redfish_health_predicted_media_life_left_percent
+
+Predicted media life left for flash devices as a percentage.
 
 ### redfish_powerstate
 

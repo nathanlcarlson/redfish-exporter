@@ -20,8 +20,9 @@ class welcomePage:
         <h1>Redfish Exporter</h1>
         <h2>Prometheus Exporter for redfish API based servers monitoring</h2>
         <ul>
-            <li>Use <a href="/redfish">/redfish</a> to retrieve health metrics.</li>
+            <li>Use <a href="/health">/health</a> to retrieve health metrics.</li>
             <li>Use <a href="/firmware">/firmware</a> to retrieve firmware version metrics.</li>
+            <li>Use <a href="/performance">/performance</a> to retrieve performance metrics.</li>
         </ul>
         """
 
