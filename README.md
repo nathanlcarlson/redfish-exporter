@@ -1,5 +1,7 @@
 # Redfish-Exporter
 
+Based on https://github.com/sapcc/redfish-exporter
+
 This is a Prometheus Exporter for extracting metrics from a server using the Redfish API.
 The hostname of the server has to be passed as **target parameter** in the http call.
 
