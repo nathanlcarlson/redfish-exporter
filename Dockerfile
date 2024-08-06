@@ -21,7 +21,7 @@ COPY *.py /${FOLDERNAME}/
 COPY collectors/ /${FOLDERNAME}/collectors/
 COPY config.yml /${FOLDERNAME}/
 
-LABEL source_repository="https://github.com/sapcc/redfish-exporter"
-LABEL maintainer="Bernd Kuespert <bernd.kuespert@sap.com>"
+LABEL source_repository="https://github.com/nathanlcarlson/redfish-exporter"
+LABEL maintainer="Nathan Carlson"
 
 ENTRYPOINT ["/usr/local/bin/python3", "/redfish_exporter/main.py", "-c", "/redfish_exporter/config.yml"]
